@@ -67,3 +67,7 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+canary:
+  setWeight: 20
+
