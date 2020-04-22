@@ -45,7 +45,7 @@ spec:
       #           - stateful
       containers:
       - name: go-app
-        image: "012569964433.dkr.ecr.eu-west-1.amazonaws.com/go-app:b53"
+        image: "012569964433.dkr.ecr.eu-west-1.amazonaws.com/go-app:690a043a5"
         pullPolicy: IfNotPresent
         # env:
         #   - name: student
