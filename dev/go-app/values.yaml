@@ -9,7 +9,7 @@ App:
     repository: 012569964433.dkr.ecr.eu-west-1.amazonaws.com/go-app
     tag: b53
   pullPolicy: IfNotPresent
-  containerPort: 80
+  containerPort: 8080
   tolerations: {}
   resources: {}
   livenessProbe: {}
