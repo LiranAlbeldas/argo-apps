@@ -43,18 +43,18 @@ spec:
       #           operator: NotIn
       #           values:
       #           - stateful
-    containers:
-    - name: go-app
-    image: "012569964433.dkr.ecr.eu-west-1.amazonaws.com/go-app:690a043a5"
-    pullPolicy: IfNotPresent
-    # env:
-    #   - name: student
-    #     valueFrom:
-    #       secretKeyRef:
-    #         name: student-secret
-    #         key: student
-    ports:
-    - containerPort: 3000
+      containers:
+      - name: go-app
+        image: "012569964433.dkr.ecr.eu-west-1.amazonaws.com/go-app:690a043a5"
+        pullPolicy: IfNotPresent
+        # env:
+        #   - name: student
+        #     valueFrom:
+        #       secretKeyRef:
+        #         name: student-secret
+        #         key: student
+        ports:
+        - containerPort: 3000
   revisionHistoryLimit: 3
   strategy:
 # --- Everything above this comment are the same as a deployment ---
