@@ -6,7 +6,7 @@ namespace: dev
 replicaCount: 1
 
 image:
-  repository: 012569964433.dkr.ecr.eu-west-1.amazonaws.com/go-app:e8f0e21d0
+  repository: 012569964433.dkr.ecr.eu-west-1.amazonaws.com/go-app:1c2e61e1e
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
@@ -69,5 +69,5 @@ tolerations: []
 affinity: {}
 
 canary:
-  setWeight: 20
+  setWeight: 50
 
