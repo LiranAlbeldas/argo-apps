@@ -1,6 +1,6 @@
 App: 
-  name: goapp-liran
-  app: goapp
+  name: go-app
+  app: go-app
   namespace: dev
   replicas: 2
   nodeSelector: {}
@@ -52,18 +52,18 @@ App:
     # keyName:        _ _|
 
 Service:
-  name: svcgoapp
+  name: go-app
   namespace: dev
-  type: ClusterIP
+  type: LoadBalancer
   port: 80
   app: goapp
 
-# Ingress:
-#   enabled: false
-#   name: ingressName
-#   annotations: {}
-#   # kubernetes.io/ingress.class: alb
-#   # alb.ingress.kubernetes.io/scheme: internet-facing
-#   hosts:
-#     - host: doe.example.com
-#       paths: []
+Ingress:
+   enabled: false
+  name: ingressName
+  annotations: {}
+  # kubernetes.io/ingress.class: alb
+  # alb.ingress.kubernetes.io/scheme: internet-facing
+  hosts:
+    - host: doe.example.com
+      paths: []
