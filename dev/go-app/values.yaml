@@ -6,7 +6,8 @@ namespace: dev
 replicaCount: 2
 
 image:
-  repository: 012569964433.dkr.ecr.eu-west-1.amazonaws.com/go-app:b53
+  repository: 012569964433.dkr.ecr.eu-west-1.amazonaws.com/go-app
+  imageTag: b53
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
