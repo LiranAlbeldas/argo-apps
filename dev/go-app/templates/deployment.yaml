@@ -54,13 +54,14 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+  revisionHistoryLimit: 3
   strategy:
-      canary:
-#         maxSurge: 25%
-#         maxUnavailable: 0
-        steps:
-        - setWeight: {{ .Values.canary.setWeight }}
-        # The following pause step will pause the rollout indefinitely until manually resumed.
-        # Rollouts can be manually resumed by running `kubectl argo rollouts resume ROLLOUT`
-        - pause: {}
-        - setWeight: 100
+    canary: #Indicates that the rollout should use the Canary strategy
+      maxSurge: "25%"
+      maxUnavailable: 0
+      steps:
+      - setWeight: 10
+      - pause:
+          duration: "30s" # 1 hour
+      - setWeight: 50
+      - pause: {} # pause indefinitely
