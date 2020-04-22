@@ -55,10 +55,9 @@ spec:
         {{- toYaml . | nindent 8 }}
     {{- end }}
   strategy:
-    canary: # A new field that used to provide configurable options for a Canary strategy
-      maxSurge: 25%
-      maxUnavailable: 0
+    canary:
       steps:
-      - setWeight: {{ .Values.canary.setWeight }}
+      - setWeight: (( .Values.canary.setWeight }}
+      # The following pause step will pause the rollout indefinitely until manually resumed.
+      # Rollouts can be manually resumed by running `kubectl argo rollouts resume ROLLOUT`
       - pause: {}
-      - setWeight: 100
