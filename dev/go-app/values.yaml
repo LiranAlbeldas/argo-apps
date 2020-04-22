@@ -56,7 +56,7 @@ Service:
   namespace: dev
   type: LoadBalancer
   port: 80
-  app: goapp
+  app: go-app
 
 Ingress:
    enabled: false
