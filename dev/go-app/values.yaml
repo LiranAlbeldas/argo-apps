@@ -69,5 +69,5 @@ tolerations: []
 affinity: {}
 
 canary:
-  setWeight: 50
+  setWeight: 51
 
