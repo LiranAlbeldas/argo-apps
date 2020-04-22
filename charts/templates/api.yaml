@@ -37,7 +37,7 @@ spec:
         #         key: student
         ports:
         - containerPort: 3000
-      revisionHistoryLimit: 3
+  revisionHistoryLimit: 3
   strategy:
     canary: #Indicates that the rollout should use the Canary strategy
       maxSurge: "25%"
