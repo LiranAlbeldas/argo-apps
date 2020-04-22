@@ -7,7 +7,7 @@ replicaCount: 2
 
 image:
   repository: 012569964433.dkr.ecr.eu-west-1.amazonaws.com/go-app
-  Tag: b53
+  tag: b53
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
