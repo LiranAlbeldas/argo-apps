@@ -25,18 +25,18 @@ spec:
       #           operator: NotIn
       #           values:
       #           - stateful
-      containers:
-      - name: {{ .Values.App.name }}
-        image: "{{ .Values.App.image.repository }}:{{ .Values.App.image.tag }}"
-        pullPolicy: {{ .Values.App.pullPolicy }}
-        # env:
-        #   - name: student
-        #     valueFrom:
-        #       secretKeyRef:
-        #         name: student-secret
-        #         key: student
-        ports:
-        - containerPort: 3000
+    containers:
+    - name: {{ .Values.App.name }}
+    image: "{{ .Values.App.image.repository }}:{{ .Values.App.image.tag }}"
+    pullPolicy: {{ .Values.App.pullPolicy }}
+    # env:
+    #   - name: student
+    #     valueFrom:
+    #       secretKeyRef:
+    #         name: student-secret
+    #         key: student
+    ports:
+    - containerPort: 3000
   revisionHistoryLimit: 3
   strategy:
     canary: #Indicates that the rollout should use the Canary strategy
@@ -64,4 +64,3 @@ spec:
     app: {{ .Values.Service.app }}
   ports:
     - port: {{ .Values.Service.port }}
-
