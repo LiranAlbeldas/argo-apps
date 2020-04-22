@@ -25,18 +25,18 @@ spec:
       #           operator: NotIn
       #           values:
       #           - stateful
-    containers:
-    - name: {{ .Values.App.name }}
-    image: "{{ .Values.App.image.repository }}:{{ .Values.App.image.tag }}"
-    pullPolicy: {{ .Values.App.pullPolicy }}
-    # env:
-    #   - name: student
-    #     valueFrom:
-    #       secretKeyRef:
-    #         name: student-secret
-    #         key: student
-    ports:
-    - containerPort: 3000
+      containers:
+      - name: {{ .Values.App.name }}
+        image: "{{ .Values.App.image.repository }}:{{ .Values.App.image.tag }}"
+        pullPolicy: {{ .Values.App.pullPolicy }}
+        # env:
+        #   - name: student
+        #     valueFrom:
+        #       secretKeyRef:
+        #         name: student-secret
+        #         key: student
+        ports:
+        - containerPort: 3000
   revisionHistoryLimit: 3
   strategy:
 # --- Everything above this comment are the same as a deployment ---
