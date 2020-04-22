@@ -1,90 +1,67 @@
 #deployment manifest for nodejstest1
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
-  name: {{ .Values.applicationManifest.name }}
+  name: {{ .Values.App.name }}
   labels:
-    app: {{ .Values.applicationManifest.app }}
-  namespace: {{ .Values.applicationManifest.namespace }}
+    app: {{ .Values.App.app }}
+  namespace: {{ .Values.App.namespace }}
 spec:
-  replicas: {{ .Values.applicationManifest.replicas }}
+  replicas: {{ .Values.App.replicas }}
   selector:
     matchLabels:
-      app: {{ .Values.applicationManifest.app }}
+      app: {{ .Values.App.app }}
   template:
     metadata:
       labels:
-        app: {{ .Values.applicationManifest.app }}
+        app: {{ .Values.App.app }}
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: Type
-                operator: NotIn
-                values:
-                - stateful
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #       - matchExpressions:
+      #         - key: Type
+      #           operator: NotIn
+      #           values:
+      #           - stateful
       containers:
-      - name: {{ .Values.applicationManifest.name }}
-        image: {{ .Values.applicationManifest.image }}
-        pullPolicy: {{ .Values.applicationManifest.pullPolicy }}
-        env:
-          - name: student
-            valueFrom:
-              secretKeyRef:
-                name: student-secret
-                key: student
+      - name: {{ .Values.App.name }}
+        image: "{{ .Values.App.image.repository }}:{{ .Values.App.image.tag }}"
+        pullPolicy: {{ .Values.App.pullPolicy }}
+        # env:
+        #   - name: student
+        #     valueFrom:
+        #       secretKeyRef:
+        #         name: student-secret
+        #         key: student
         ports:
         - containerPort: 3000
+      revisionHistoryLimit: 3
+      strategy:
+        canary: #Indicates that the rollout should use the Canary strategy
+          maxSurge: "25%"
+          maxUnavailable: 0
+          steps:
+          - setWeight: 10
+          - pause:
+              duration: "30s" # 1 hour
+          - setWeight: 50
+          - pause: {} # pause indefinitely
 
 ---
 #service manifest for nodejstest1
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.serviceManifest.name }}
-  namespace: {{ .Values.serviceManifest.namespace }}
+  name: {{ .Values.Service.name }}
+  namespace: {{ .Values.Service.namespace }}
   labels:
-    app: {{ .Values.serviceManifest.app }}
+    app: {{ .Values.Service.app }}
 spec:
-  type: {{ .Values.serviceManifest.type }}
+  type: {{ .Values.Service.type }}
   selector:
-    app: {{ .Values.serviceManifest.app }}
+    app: {{ .Values.Service.app }}
   ports:
-    - port: {{ .Values.serviceManifest.port }}
+    - port: {{ .Values.Service.port }}
 
----
-#ingress for nodejstest1
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: {{ .Values.ingressManifest.name }}
-  namespace: {{ .Values.ingressManifest.namespace }}
-  annotations:
-    kubernetes.io/ingress.class: alb
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/target-type: instance
-    alb.ingress.kubernetes.io/subnets: subnet-0bab94164eb1470c3 , subnet-09d18b3b0f3259008
-    alb.ingress.kubernetes.io/tags: Environment=prod
-    alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
-    alb.ingress.kubernetes.io/certificate-arn: 	arn:aws:acm:eu-west-1:990304281820:certificate/7fe930e4-8b71-4ca2-8a72-c3c9614d366c
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
-    alb.ingress.kubernetes.io/healthcheck-path: /health
-    alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
-    alb.ingress.kubernetes.io/success-codes: '200,304'
-  labels:
-    app: {{ .Values.ingressManifest.app }}
-spec:
-  rules:
-    - host: api.unipaas.com
-      http:
-        paths:
-          - path: /*
-            backend:
-             serviceName: ssl-redirect
-             servicePort: use-annotation
-          - path: /*
-            backend:
-              serviceName: {{ .Values.ingressManifest.serviceName }}
-              servicePort: {{ .Values.ingressManifest.servicePort }}
