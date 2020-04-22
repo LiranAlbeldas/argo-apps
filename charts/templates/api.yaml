@@ -39,15 +39,16 @@ spec:
     - containerPort: 3000
   revisionHistoryLimit: 3
   strategy:
-    canary: #Indicates that the rollout should use the Canary strategy
+# --- Everything above this comment are the same as a deployment ---
+    canary: # A new field for configurable Canary options
       maxSurge: "25%"
       maxUnavailable: 0
       steps:
-      - setWeight: 25
+      - setWeight: 20
       - pause:
-          duration: "60s" # 1 hour
+          duration: 60 #seconds
       - setWeight: 50
-      - pause: {} # pause indefinitely
+      - pause: {}
 
 ---
 #service manifest for nodejstest1
