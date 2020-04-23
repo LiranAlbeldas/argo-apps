@@ -58,7 +58,7 @@ spec:
         #         key: student
           ports:
             - name: http
-            - containerPort: 8080
+              containerPort: 8080
               protocol: TCP 
           livenessProbe:
             httpGet:
