@@ -1,7 +1,7 @@
 App: 
   name: go-app
   app: go-app
-  namespace: dev
+  namespace: production
   replicas: 2
   nodeSelector: {}
   affinity: {}

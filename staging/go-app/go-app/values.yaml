@@ -1,7 +1,7 @@
 App: 
   name: go-app
   app: go-app
-  namespace: staging
+  namespace: dev
   replicas: 2
   nodeSelector: {}
   affinity: {}
@@ -50,9 +50,6 @@ App:
     # envName:           |
     # secretName:        |--------> need to be managed via values file?
     # keyName:        _ _|
-
-canary:
-  setWeight: 50
 
 Service:
   name: go-app
