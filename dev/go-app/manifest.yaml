@@ -1,6 +1,5 @@
 ---
 # Source: api_chart/templates/api.yaml
-# Source: api_chart/templates/api.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -18,7 +17,6 @@ spec:
   selector:
     app: go-app
 ---
-# Source: api_chart/templates/api.yaml
 # Source: api_chart/templates/api.yaml
 #deployment manifest for nodejstest1
 apiVersion: argoproj.io/v1alpha1
@@ -50,7 +48,7 @@ spec:
       pullPolicy: IfNotPresent
       containers:
         - name: go-app
-          image: "012569964433.dkr.ecr.eu-west-1.amazonaws.com/go-app:b53"
+          image: "012569964433.dkr.ecr.eu-west-1.amazonaws.com/go-app:690a043a5"
           ports:
           - name: http
             containerPort: 8080
@@ -63,14 +61,14 @@ spec:
             httpGet:
               path: /
               port: http
-      revisionHistoryLimit: 3
-      strategy:
-        canary: #Indicates that the rollout should use the Canary strategy
-          maxSurge: "25%"
-          maxUnavailable: 0
-          steps:
-          - setWeight: 10
-          - pause:
-              duration: "30s" # 1 hour
-          - setWeight: 50
-          - pause: {} # pause indefinitely
+  revisionHistoryLimit: 3
+  strategy:
+    canary: #Indicates that the rollout should use the Canary strategy
+      maxSurge: "25%"
+      maxUnavailable: 0
+      steps:
+      - setWeight: 10
+      - pause:
+          duration: "30s" # 1 hour
+      - setWeight: 50
+      - pause: {} # pause indefinitely
