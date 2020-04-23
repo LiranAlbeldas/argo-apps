@@ -65,7 +65,7 @@ spec:
   strategy:
     canary: # A new field that used to provide configurable options for a Canary strategy
       maxSurge: "25%"
-      maxUnavailable: 0
+      maxUnavailable: 1
       steps:
       - setWeight: 50
       - pause: {}
