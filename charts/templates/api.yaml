@@ -1,40 +1,20 @@
----
-# Source: api_chart/templates/api.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: go-app
-  namespace: dev
-  labels:
-    app: go-app
-spec:
-  type: LoadBalancer
-  ports:
-    - port: 80
-      targetPort: http
-      protocol: TCP
-      name: http
-  selector:
-    app: go-app
----
-# Source: api_chart/templates/api.yaml
 #deployment manifest for nodejstest1
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: go-app
+  name: {{ .Values.App.name }}
   labels:
-    app: go-app
-  namespace: dev
+    app: {{ .Values.App.app }}
+  namespace: {{ .Values.App.namespace }}
 spec:
-  replicas: 2
+  replicas: {{ .Values.App.replicas }}
   selector:
     matchLabels:
-      app: go-app
+      app: {{ .Values.App.app }}
   template:
     metadata:
       labels:
-        app: go-app
+        app: {{ .Values.App.app }}
     spec:
       # affinity:
       #   nodeAffinity:
@@ -45,10 +25,10 @@ spec:
       #           operator: NotIn
       #           values:
       #           - stateful
-      pullPolicy: IfNotPresent
+      pullPolicy: {{ .Values.App.pullPolicy }}
       containers:
-        - name: go-app
-          image: "012569964433.dkr.ecr.eu-west-1.amazonaws.com/go-app:b53"
+        - name: {{ .Values.App.name }}
+          image: "{{ .Values.App.image.repository }}:{{ .Values.App.image.tag }}"
           ports:
           - name: http
             containerPort: 8080
@@ -72,3 +52,21 @@ spec:
               duration: "30s" # 1 hour
           - setWeight: 50
           - pause: {} # pause indefinitely
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.Service.name }}
+  namespace: {{ .Values.Service.namespace }}
+  labels:
+    app: {{ .Values.Service.app }}
+spec:
+  type: {{ .Values.Service.type }}
+  ports:
+    - port: {{ .Values.Service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ .Values.Service.app }}
