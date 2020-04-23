@@ -48,7 +48,7 @@ spec:
       pullPolicy: IfNotPresent
       containers:
         - name: go-app
-          image: "012569964433.dkr.ecr.eu-west-1.amazonaws.com/go-app:fb245e3a1"
+          image: "012569964433.dkr.ecr.eu-west-1.amazonaws.com/go-app:f5ce339fd"
           ports:
           - name: http
             containerPort: 8080
