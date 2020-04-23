@@ -25,33 +25,43 @@ spec:
       #           operator: NotIn
       #           values:
       #           - stateful
+      pullPolicy: {{ .Values.App.pullPolicy }}
       containers:
-      - name: {{ .Values.App.name }}
-        image: "{{ .Values.App.image.repository }}:{{ .Values.App.image.tag }}"
-        pullPolicy: {{ .Values.App.pullPolicy }}
+        - name: {{ .Values.App.name }}
+          image: "{{ .Values.App.image.repository }}:{{ .Values.App.image.tag }}"
+        
         # env:
         #   - name: student
         #     valueFrom:
         #       secretKeyRef:
         #         name: student-secret
         #         key: student
-        ports:
-        - containerPort: 3000
-  revisionHistoryLimit: 3
-  strategy:
-# --- Everything above this comment are the same as a deployment ---
-    canary: # A new field for configurable Canary options
-      maxSurge: "25%"
-      maxUnavailable: 0
-      steps:
-      - setWeight: 20
-      - pause:
-          duration: 60 #seconds
-      - setWeight: 50
-      - pause: {}
+          ports:
+            - name: http
+            - containerPort: 8080
+              protocol: TCP 
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+      revisionHistoryLimit: 3
+      strategy:
+        canary: #Indicates that the rollout should use the Canary strategy
+          maxSurge: "25%"
+          maxUnavailable: 0
+          steps:
+          - setWeight: 10
+          - pause:
+              duration: "30s" # 1 hour
+          - setWeight: 50
+          - pause: {} # pause indefinitely
 
 ---
-#service manifest for nodejstest1
 apiVersion: v1
 kind: Service
 metadata:
@@ -61,7 +71,10 @@ metadata:
     app: {{ .Values.Service.app }}
 spec:
   type: {{ .Values.Service.type }}
-  selector:
-    app: {{ .Values.Service.app }}
   ports:
     - port: {{ .Values.Service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ .Values.Service.app }}
