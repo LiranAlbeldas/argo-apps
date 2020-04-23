@@ -56,7 +56,7 @@ canary:
 
 Service:
   name: go-app
-  namespace: dev
+  namespace: staging
   type: LoadBalancer
   port: 80
   app: go-app
