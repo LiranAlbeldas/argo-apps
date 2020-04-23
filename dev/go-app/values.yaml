@@ -2,7 +2,7 @@ App:
   name: go-app
   app: go-app
   namespace: dev
-  replicas: 2
+  replicas: 5
   nodeSelector: {}
   affinity: {}
   image: 
