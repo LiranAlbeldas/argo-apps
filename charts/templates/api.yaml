@@ -47,7 +47,7 @@ spec:
       maxSurge: "25%"
       maxUnavailable: 0
       steps:
-      - setWeight: {{ Values.canary.setWeight }}
+      - setWeight: {{ .Values.canary.setWeight }}
       - pause: {}
 ---
 apiVersion: v1
