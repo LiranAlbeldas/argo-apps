@@ -51,6 +51,9 @@ App:
     # secretName:        |--------> need to be managed via values file?
     # keyName:        _ _|
 
+canary:
+  setWeight: 50
+
 Service:
   name: go-app
   namespace: dev
