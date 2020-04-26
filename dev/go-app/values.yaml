@@ -57,7 +57,7 @@ canary:
 Service:
   name: go-app
   namespace: dev
-  type: LoadBalancer
+  type: ClusterIP
   port: 80
   app: go-app
 
