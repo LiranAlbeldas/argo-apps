@@ -58,7 +58,7 @@ Service:
   name: go-app
   namespace: dev
   type: ClusterIP
-  port: 80
+  port: 8080
   app: go-app
 
 # Ingress:
