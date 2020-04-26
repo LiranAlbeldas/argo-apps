@@ -44,11 +44,12 @@ spec:
   revisionHistoryLimit: 3
   strategy:
     canary: # A new field that used to provide configurable options for a Canary strategy
-      maxSurge: "25%"
-      maxUnavailable: 0
+      maxSurge: "10%"
+      maxUnavailable: 1
       steps:
       - setWeight: {{ .Values.canary.setWeight }}
-      - pause: {}
+      - pause:
+          duration: 60
 ---
 apiVersion: v1
 kind: Service
