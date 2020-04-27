@@ -11,9 +11,9 @@ spec:
   type: LoadBalancer
   ports:
     - port: 80
-      targetPort: http
+#       targetPort: http
       protocol: TCP
-      name: http
+#       name: http
   selector:
     app: go-app
 ---
@@ -48,7 +48,7 @@ spec:
       pullPolicy: IfNotPresent
       containers:
         - name: go-app
-          image: "012569964433.dkr.ecr.eu-west-1.amazonaws.com/go-app:a8942dad7"
+          image: "012569964433.dkr.ecr.eu-west-1.amazonaws.com/go-app:55c8183ba"
           ports:
           - name: http
             containerPort: 8080
@@ -64,8 +64,9 @@ spec:
   revisionHistoryLimit: 3
   strategy:
     canary: # A new field that used to provide configurable options for a Canary strategy
-      maxSurge: "25%"
-      maxUnavailable: 0
+      maxSurge: "10%"
+      maxUnavailable: 1
       steps:
       - setWeight: 50
-      - pause: {}
+      - pause:
+          duration: 60
