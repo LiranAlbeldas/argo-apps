@@ -60,6 +60,7 @@ Service:
   type: ClusterIP
   port: 80
   app: go-app
+  targetPort: 8080
 
 # Ingress:
 #    enabled: false
